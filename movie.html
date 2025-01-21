@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Rental Store</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #f0f8ff; /* Highlight row on hover */
+    }
+
+    .movie-title:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .header-title {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 2rem;
+      color: #333;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px #aaa;
+    }
+
+    .filter-section, .add-movie-section {
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .add-movie-section {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-add {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="header-title">Movie Rental Store</h1>
+    
+    <!-- Filter Section -->
+    <div class="filter-section d-flex justify-content-center">
+      <select class="form-select mx-2" id="genreFilter" style="max-width: 200px;">
+        <option value="All">Filter by Genre: All</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Drama">Drama</option>
+        <option value="Action">Action</option>
+      </select>
+      <select class="form-select mx-2" id="yearFilter" style="max-width: 200px;">
+        <option value="All">Filter by Release Year: All</option>
+        <option value="2008">2008</option>
+        <option value="2010">2010</option>
+        <option value="2014">2014</option>
+        <option value="2019">2019</option>
+      </select>
+    </div>
+
+    <!-- Movie Table -->
+    <table class="table table-bordered table-hover mt-4">
+      <thead class="table-success">
+        <tr>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Release Year</th>
+          <th>Rental Price ($)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="movieTable">
+        <tr>
+          <td class="movie-title" data-bs-toggle="tooltip" title="A mind-bending thriller about dreams within dreams.">Inception</td>
+          <td>Sci-Fi</td>
+          <td>2010</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        </tr>
+        <tr>
+          <td class="movie-title" data-bs-toggle="tooltip" title="A gripping story of class struggle in South Korea.">Parasite</td>
+          <td>Drama</td>
+          <td>2019</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        </tr>
+        <tr>
+          <td class="movie-title" data-bs-toggle="tooltip" title="A superhero's journey to save Gotham City.">The Dark Knight</td>
+          <td>Action</td>
+          <td>2008</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        </tr>
+        <tr>
+          <td class="movie-title" data-bs-toggle="tooltip" title="Earth's mightiest heroes come together to fight Thanos.">Avengers: Endgame</td>
+          <td>Action</td>
+          <td>2019</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        </tr>
+        <tr>
+          <td class="movie-title" data-bs-toggle="tooltip" title="An epic sci-fi exploration of space and time.">Interstellar</td>
+          <td>Sci-Fi</td>
+          <td>2014</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Movie Section -->
+    <div class="add-movie-section">
+      <h4>Add New Movie</h4>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <input type="text" id="movieTitle" class="form-control" placeholder="Movie Title">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" id="movieGenre" class="form-control" placeholder="Genre">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="number" id="releaseYear" class="form-control" placeholder="Release Year">
+        </div>
+      </div>
+      <button class="btn btn-success btn-add" onclick="addMovie()">Add Movie</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Enable Bootstrap tooltips
+    document.addEventListener('DOMContentLoaded', function () {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    });
+
+    // Add Movie Functionality
+    function addMovie() {
+      const title = document.getElementById('movieTitle').value;
+      const genre = document.getElementById('movieGenre').value;
+      const year = document.getElementById('releaseYear').value;
+
+      if (title && genre && year) {
+        const table = document.getElementById('movieTable');
+        const newRow = table.insertRow();
+
+        newRow.innerHTML = `
+          <td class="movie-title" data-bs-toggle="tooltip" title="Newly added movie.">${title}</td>
+          <td>${genre}</td>
+          <td>${year}</td>
+          <td>3</td>
+          <td><button class="btn btn-danger btn-sm" onclick="removeMovie(this)">Remove</button></td>
+        `;
+
+        // Reinitialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+          new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Clear input fields
+        document.getElementById('movieTitle').value = '';
+        document.getElementById('movieGenre').value = '';
+        document.getElementById('releaseYear').value = '';
+      } else {
+        alert('Please fill in all fields before adding a movie.');
+      }
+    }
+
+    // Remove Movie Functionality
+    function removeMovie(button) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+    }
+  </script>
+</body>
+</html>
